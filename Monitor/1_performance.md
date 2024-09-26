@@ -23,8 +23,8 @@
 window.addEventListener("load", (event) => {
   // 获取页面加载完成时的性能指标
   const performanceTiming = performance.getEntriesByType("navigation")[0]
-  console.log("First Contentful Paint:", performanceTiming.startTime)
-  console.log("Largest Contentful Paint:", performanceTiming.responseEnd)
+  console.log("First Contention Paint:", performanceTiming.startTime)
+  console.log("Largest Contention Paint:", performanceTiming.responseEnd)
 })
 ```
 
@@ -159,3 +159,87 @@ function sendPerformanceData(data) {
 4. **资源监控**：使用 `PerformanceObserver` 动态监控资源加载、布局偏移等重要性能指标。
 
 你可以结合这些方法，根据不同的场景来实现全面的前端性能监控。
+
+FCP（**First Contentful Paint**）、LCP（**Largest Contentful Paint**）、FID（**First Input Delay**）和 CLS（**Cumulative Layout Shift**）是 Web Vitals 中用于衡量网页性能的关键指标。每个指标都有标准的评分区间，基于这些区间，你可以判断页面的用户体验表现是否良好。以下是这些指标的最佳性能范围（衡量标准），根据 Google 提供的 Web Vitals 指南：
+
+### 1. **FCP (First Contentful Paint)**
+
+**FCP** 测量的是页面首次绘制内容到屏幕上的时间，包括文本、图像、背景图或 SVG 等。它是衡量加载速度的一个重要指标。
+
+- **优秀**：小于 1.8 秒
+- **需要改进**：1.8 - 3 秒
+- **较差**：大于 3 秒
+
+**解释**：
+
+- **优秀**：用户在 1.8 秒内能看到页面内容，加载体验较好。
+- **较差**：如果加载时间超过 3 秒，用户可能会觉得页面过慢。
+
+### 2. **LCP (Largest Contentful Paint)**
+
+**LCP** 测量的是页面的主要内容（通常是最大的图像或文本块）完全加载完成的时间，衡量页面的加载感知速度。
+
+- **优秀**：小于 2.5 秒
+- **需要改进**：2.5 - 4 秒
+- **较差**：大于 4 秒
+
+**解释**：
+
+- **优秀**：用户能在 2.5 秒内看到页面的主要内容加载完成，感知加载时间较短。
+- **较差**：超过 4 秒会显得加载较慢，影响用户体验。
+
+### 3. **FID (First Input Delay)**
+
+**FID** 测量用户与页面首次交互（如点击、按键）到页面响应这次交互的延迟时间。它衡量的是页面的交互性能。
+
+- **优秀**：小于 100 毫秒
+- **需要改进**：100 毫秒 - 300 毫秒
+- **较差**：大于 300 毫秒
+
+**解释**：
+
+- **优秀**：当用户第一次尝试与页面互动（如点击按钮）时，响应时间在 100 毫秒内，体验非常流畅。
+- **较差**：超过 300 毫秒的延迟，用户会感觉到明显的卡顿。
+
+### 4. **CLS (Cumulative Layout Shift)**
+
+**CLS** 衡量的是页面视觉内容的稳定性，尤其是在加载过程中。较大的布局偏移会影响用户体验，导致用户误操作或混淆。
+
+- **优秀**：小于 0.1
+- **需要改进**：0.1 - 0.25
+- **较差**：大于 0.25
+
+**解释**：
+
+- **优秀**：页面内容几乎没有视觉上的意外跳动，用户体验稳定。
+- **较差**：如果页面内容频繁移动（例如图像、广告加载后导致页面跳动），用户体验会受到很大影响。
+
+### 总结的最佳标准：
+
+- **FCP**：1.8 秒内
+- **LCP**：2.5 秒内
+- **FID**：100 毫秒内
+- **CLS**：0.1 以下
+
+### 如何达到这些标准？
+
+1. **优化图片和资源加载**：
+   - 使用现代图片格式（如 WebP）和懒加载策略。
+   - 压缩 JavaScript 和 CSS，减少资源体积。
+2. **提高服务器响应速度**：
+
+   - 使用 CDN 缓存静态资源。
+   - 减少服务器请求次数和资源重定向。
+
+3. **减少主线程阻塞**：
+
+   - 优化 JavaScript 执行，避免长任务。
+   - 将非关键资源延迟加载，使用 `async` 和 `defer` 来加载非关键的 JavaScript 文件。
+
+4. **避免布局偏移**：
+   - 为图片、视频、广告等预留固定空间，避免页面加载过程中布局突然变化。
+
+### 参考工具
+
+- **Lighthouse**（Google 提供的网页性能检测工具）：可以帮助你在开发过程中实时监测 FCP、LCP、FID 和 CLS 的表现。
+- **Web Vitals 库**：可以通过 JavaScript 收集 Web Vitals 指标并发送到你的监控工具。
